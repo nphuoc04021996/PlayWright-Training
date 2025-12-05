@@ -1,0 +1,11 @@
+{
+    "default-payment": {
+        "firstName": "john",
+        "lastName": "henry",
+        "country": "Vietnam",
+        "address": "123 test",
+        "city": "Da Nang",
+        "phone": "01234567890",
+        "email": "test@gmail.com"
+    }
+}
