@@ -1,0 +1,26 @@
+{
+    "default-payment": {
+        "firstName": "john",
+        "lastName": "henry",
+        "companyName": "ABC Company",
+        "street": "123 test",
+        "country": "Vietnam",
+        "postCode": "550000",
+        "city": "DaNang",
+        "phone": "01234567890",
+        "email": "test@gmail.com",
+        "orderNoted": "This is order notes"
+        },
+    "error-payment": {
+        "firstName": "",
+        "lastName": "",
+        "companyName": "",
+        "street": "",
+        "country": "Vietnam",
+        "postCode": "",
+        "city": "",
+        "phone": "",
+        "email": "",
+        "orderNoted": ""
+        }
+}

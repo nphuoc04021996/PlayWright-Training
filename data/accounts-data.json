@@ -1,6 +1,14 @@
 {
-    "validaccount": {
+    "valid-account": {
         "username": "phuoc.van.nguyen",
+        "password": "Logigear@123456"
+    },
+    "wwnhy-account": {
+        "username": "wwnhy@dollicons.com",
+        "password": "Logigear@123456"
+    },
+    "apua8-account": {
+        "username": "apua8@dollicons.com",
         "password": "Logigear@123456"
     }
 }

@@ -7,4 +7,4 @@ export enum DepartmentOptions {
     CONSUMER_ELECTRONICS = "Consumer Electronics",
     ELECTRONIC_COMPONENTS_AND_SUPPLIES = "Electronic Components & Supplies",
     WATCHES = "Watches"
-}   
+}  
