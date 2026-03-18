@@ -94,6 +94,7 @@ export class CheckoutPage extends BasePage {
     }
 
     async placeOrderProduct() {
+        await this.placeOrderButton.scrollIntoViewIfNeeded();
         await this.placeOrderButton.click();
     }
 
