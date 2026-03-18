@@ -1,7 +1,7 @@
-import { BasePage } from "./base-page";
-import {Page, Locator, expect} from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { Orderinfo } from "../model/orderInfo";
 import { StringHelper } from "../utils/string-helper";
+import { BasePage } from "./base-page";
 
 export class OrderHistoryPage extends BasePage {
     private readonly orderHistoryTable: Locator;

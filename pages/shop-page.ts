@@ -1,6 +1,6 @@
-import { BasePage } from "./base-page";
-import {Page, Locator, expect} from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import type { Product } from "../model/product";
+import { BasePage } from "./base-page";
 
 export class ShopPage extends BasePage {
     private readonly listViewButton: Locator;
@@ -32,5 +32,14 @@ export class ShopPage extends BasePage {
         const sorted = [...prices].sort((a, b) => direction === 'asc' ? a - b : b - a);
         expect(prices).toEqual(sorted);
     }
+
+    async selectRandomItemDetail(): Promise<void> {
+        const index = await this.randomNumberInList();
+        const productCard = await this.getProductCartByIndex(index);
+        const productLocators = await this.getProductLocator(productCard);
+        await productLocators.name.click()
+    }
+
+    
 }
 

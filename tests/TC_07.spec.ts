@@ -1,15 +1,15 @@
+import { CheckoutField } from '../constants/checkout-field';
 import billingJson from '../data/payment.json';
 import { test } from '../fixtures/my-fixtures';
-import { Utils } from "../utils/utils";
 import { Product } from '../model/product';
-import { CheckoutField } from '../constants/checkout-field';
+import { Utils } from "../utils/utils";
 
 test.describe('Ensure proper error handling when mandatory fields are blank', () => {
   test.beforeEach(async ({ homePage, adPage }) => {
         await adPage.closeAdIfPresent();
         await homePage.gotoHomePage();
   });
-  test.only("Verify users try to buy an item without logging in (As a guest)", async ({ homePage, shopPage, checkoutPage, orderStatusPage }) => {
+  test.only("Verify users try to buy an item without logging in (As a guest)", async ({ homePage, shopPage, checkoutPage }) => {
       await homePage.gotoShopPage();
       await shopPage.switchToListView();
       const products: Product[] = await shopPage.selectListItemInList(1);

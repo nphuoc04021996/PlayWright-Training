@@ -1,8 +1,8 @@
-import { test } from '../fixtures/my-fixtures';
-import { Product } from '../model/product';
-import { Orderinfo } from '../model/orderInfo';
-import { Utils } from "../utils/utils";
 import billingJson from '../data/payment.json';
+import { test } from '../fixtures/my-fixtures';
+import { Orderinfo } from '../model/orderInfo';
+import { Product } from '../model/product';
+import { Utils } from "../utils/utils";
 
 test.describe.serial("Verify orders appear in order history", () =>{
     let order1: Orderinfo;
@@ -31,7 +31,7 @@ test.describe.serial("Verify orders appear in order history", () =>{
         order2 = await orderStatusPage.getOrderInfo();
   });
 
-    test.only(`Verify users can buy item with`, async ({ myAccountPage, orderStatusPage, orderHistoryPage }) => {
+    test.only(`Verify orders appear in order history`, async ({ myAccountPage, orderStatusPage, orderHistoryPage }) => {
         await orderStatusPage.gotoMypage();
         await myAccountPage.gotoOrderHistory();
         const orderList = await orderHistoryPage.getListOrderHistory();

@@ -8,6 +8,7 @@ import { test as base } from "@playwright/test";
 import { OrderStatusPage } from "../pages/order-status-page";
 import { ShopPage } from "../pages/shop-page";
 import { OrderHistoryPage } from "../pages/order-history-page";
+import { ItemDetailPage } from "../pages/item-detail-page";
 import userData from "../data/accounts-data.json";
 
 
@@ -21,6 +22,7 @@ type MyFixture = {
     orderStatusPage: OrderStatusPage
     shopPage: ShopPage;
     orderHistoryPage: OrderHistoryPage;
+    itemDetailPage: ItemDetailPage;
     account: { username: string; password: string };
 };
 
@@ -74,6 +76,11 @@ export const test = base.extend<MyFixture>({
     orderHistoryPage: async ({ page }, use) => {
         const orderHistoryPage = new OrderHistoryPage(page);
         await use(orderHistoryPage);
+    },
+
+    itemDetailPage: async ({ page }, use) => {
+        const itemDetailPage = new ItemDetailPage(page);
+        await use(itemDetailPage);
     }
 })
 

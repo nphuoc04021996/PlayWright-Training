@@ -7,11 +7,11 @@ export class StringHelper {
 
     normalizedActual = normalizedActual.replace(/×\s*\d+$/, '').trim();
 
-    return normalizedActual.includes(normalizedExpected);
+    return normalizedActual == normalizedExpected;
   }
 
   public static extractTotal(total: string): string {
     const match = total.match(/\$\d+(?:,\d{3})*(?:\.\d{2})?/);
     return match ? match[0] : '';
-}
+  }
 }

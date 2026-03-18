@@ -1,7 +1,5 @@
-import {Page, Locator} from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import type { Product } from '../model/product';
-import { Utils } from '../utils/utils';
-import { url } from 'inspector';
 
 export abstract class BasePage {
     private randomIndexes: number[] = [];
@@ -46,7 +44,7 @@ export abstract class BasePage {
     }
 
     async selectDepartment(departmentName: string){
-        await this.alldepartmentsSelect.click();
+        await this.alldepartmentsSelect.hover();
         await this.departmentOptionList.filter({ hasText: `${departmentName}` }).click();
     }
 
@@ -67,19 +65,27 @@ export abstract class BasePage {
     }
 
     async gotoShopPage() {
+        await this.shopTab.waitFor({ state: 'visible' });
         await this.shopTab.click();
     }
 
     async gotoTheCart() {
         await this.cartLink.scrollIntoViewIfNeeded();
         await this.cartLink.hover();
+        await this.checkoutButtonInCartMiniContent.waitFor({
+            state: 'visible'
+        });
     }
 
     async gotoCartPage() {
-        await this.cartLink.click();
+        await Promise.all([
+            this.page.waitForURL('**/cart/**'),
+            this.cartLink.click()
+        ]);
     }
 
     async proceedToCheckoutFromCartMiniContent() {
+        await this.checkoutButtonInCartMiniContent.scrollIntoViewIfNeeded();
         await this.checkoutButtonInCartMiniContent.click();
     }
 
@@ -146,8 +152,12 @@ export abstract class BasePage {
         const productCard = await this.getProductCartByIndex(index);
         const productLocators = await this.getProductLocator(productCard);
         const productData = await this.getProductDataByIndex(index);
-
-        await productLocators.addToCartLink.click();
+        await Promise.all([
+            this.page.waitForResponse(res =>
+                res.url().includes('?wc-ajax=add_to_cart')
+            ),
+            productLocators.addToCartLink.click()
+        ]);
         return productData;
     }
 

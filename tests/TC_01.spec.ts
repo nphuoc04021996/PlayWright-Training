@@ -1,6 +1,6 @@
+import { DepartmentOptions } from "../constants/department-option";
 import billingJson from '../data/payment.json';
 import { test } from '../fixtures/my-fixtures';
-import { DepartmentOptions } from "../constants/department-option";
 import { Utils } from "../utils/utils";
 
 test.describe('Verify users can buy an item successfully', () => {

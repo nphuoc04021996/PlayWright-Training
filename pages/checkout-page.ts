@@ -1,8 +1,8 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { BasePage } from './base-page';
-import { Product } from '../model/product';
 import { Billing } from "../model/billing";
+import { Product } from '../model/product';
 import { StringHelper } from "../utils/string-helper";
+import { BasePage } from './base-page';
 
 export class CheckoutPage extends BasePage {
     private readonly productTable: Locator;

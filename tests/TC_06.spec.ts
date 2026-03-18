@@ -1,7 +1,7 @@
 import billingJson from '../data/payment.json';
 import { test } from '../fixtures/my-fixtures';
-import { Utils } from "../utils/utils";
 import { Product } from '../model/product';
+import { Utils } from "../utils/utils";
 
 test.describe('Verify users try to buy an item without logging in (As a guest)', () => {
   test.beforeEach(async ({ homePage,  adPage }) => {

@@ -1,5 +1,5 @@
+import { Locator, Page } from '@playwright/test';
 import { BasePage } from "./base-page";
-import {Page, Locator} from '@playwright/test';
 
 export class MyAccountPage extends BasePage {
     private readonly usernameInput: Locator;

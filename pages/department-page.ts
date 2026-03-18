@@ -1,7 +1,5 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from './base-page';
-import { Product } from '../model/product';
-import { Utils } from '../utils/utils';
 
 export class DepartmentPage extends BasePage{
     private readonly productListAsGrid: Locator;
@@ -35,14 +33,4 @@ export class DepartmentPage extends BasePage{
     async switchToGridView(){
         await this.gridViewButton.click();
     }   
-
-    async selectRandomItemInList(): Promise<Product>{
-        const index = await this.randomNumberInList();
-        const productCard = await this.getProductCartByIndex(index);        
-        const productLocators = await this.getProductLocator(productCard);
-        const productData = await this.getProductDataByIndex(index);
-
-        await productLocators.addToCartLink.click();
-        return productData;
-    }
 }

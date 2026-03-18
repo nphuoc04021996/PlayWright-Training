@@ -1,8 +1,8 @@
+import { paymentMethods } from '../constants/payment-method';
+import billingJson from '../data/payment.json';
 import { test } from '../fixtures/my-fixtures';
 import { Product } from '../model/product';
-import { paymentMethods } from '../constants/payment-method';
 import { Utils } from "../utils/utils";
-import billingJson from '../data/payment.json';
 
 
 test.describe.serial("Verify users can buy an item using different payment methods (all payment methods)", ()=>{

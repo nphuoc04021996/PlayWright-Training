@@ -1,5 +1,5 @@
-import { test } from '../fixtures/my-fixtures';
 import { SortListOption } from '../constants/sort-list-option';
+import { test } from '../fixtures/my-fixtures';
 
 
 
