@@ -142,7 +142,7 @@ export abstract class BasePage {
             rate = ratingLabel?.match(/Rated ([\d.]+)/)?.[1] ?? '0';
         }
 
-        const description = await locators.description.innerText();
+        const description = (await locators.description.textContent())?.trim() ?? '';
 
         return { name, price, category, rate, description };
     }
