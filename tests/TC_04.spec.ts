@@ -10,7 +10,7 @@ test.describe.serial("Verify users can sort items by price", () =>{
         await homePage.gotoHomePage();
   });
 
-    test.only("Verify users can sort items by price" , async ({ homePage, shopPage }) => {
+    test("Verify users can sort items by price" , async ({ homePage, shopPage }) => {
         await homePage.gotoShopPage();
         await shopPage.switchToListView();
         await shopPage.sortItemBy(SortListOption.SORT_BY_PRICE_LOW_TO_HIGH);

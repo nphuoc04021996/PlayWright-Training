@@ -8,7 +8,7 @@ test.describe('Verify users can post a review', () => {
         await homePage.gotoLoginOrSignup();
         await myAccountPage.login(account.username, account.password);
   });
-    test.only("Verify users can post a review", async ({ myAccountPage, shopPage, itemDetailPage }) => {
+    test("Verify users can post a review", async ({ myAccountPage, shopPage, itemDetailPage }) => {
         await myAccountPage.gotoShopPage();
         await shopPage.switchToListView();
         await shopPage.selectRandomItemDetail();

@@ -9,7 +9,7 @@ test.describe('Ensure proper error handling when mandatory fields are blank', ()
         await adPage.closeAdIfPresent();
         await homePage.gotoHomePage();
   });
-  test.only("Verify users try to buy an item without logging in (As a guest)", async ({ homePage, shopPage, checkoutPage }) => {
+  test("Verify users try to buy an item without logging in (As a guest)", async ({ homePage, shopPage, checkoutPage }) => {
       await homePage.gotoShopPage();
       await shopPage.switchToListView();
       const products: Product[] = await shopPage.selectListItemInList(1);

@@ -14,7 +14,7 @@ test.describe('Verify users can clear the cart', () => {
         await shopPage.switchToListView();
         products = await shopPage.selectListItemInList(1);
   });
-    test.only("Verify users can clear the cart", async ({ departmentPage, cartPage }) => {
+    test("Verify users can clear the cart", async ({ departmentPage, cartPage }) => {
         await departmentPage.gotoCartPage();
         await cartPage.checkProductInTableCart(products);
         await cartPage.clearShoppingCart();

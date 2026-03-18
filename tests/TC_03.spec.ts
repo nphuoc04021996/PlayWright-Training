@@ -17,7 +17,7 @@ test.describe.serial("Verify users can buy an item using different payment metho
   });
 
     for (const paymentMethod of paymentMethods) {
-        test.only(`Verify users can buy item with ${paymentMethod}`, async ({ homePage, shopPage, checkoutPage, orderStatusPage }) => {
+        test(`Verify users can buy item with ${paymentMethod}`, async ({ homePage, shopPage, checkoutPage, orderStatusPage }) => {
             await homePage.gotoShopPage();
             await shopPage.switchToListView();
             const products: Product[] = await shopPage.selectListItemInList(1);

@@ -8,7 +8,7 @@ test.describe('Verify users try to buy an item without logging in (As a guest)',
         await adPage.closeAdIfPresent();
         await homePage.gotoHomePage();
   });
-  test.only("Verify users try to buy an item without logging in (As a guest)", async ({ homePage, shopPage, checkoutPage, orderStatusPage }) => {
+  test("Verify users try to buy an item without logging in (As a guest)", async ({ homePage, shopPage, checkoutPage, orderStatusPage }) => {
       await homePage.gotoShopPage();
       await shopPage.switchToListView();
       const products: Product[] = await shopPage.selectListItemInList(1);

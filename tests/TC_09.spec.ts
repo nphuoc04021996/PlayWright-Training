@@ -15,7 +15,7 @@ test.describe('Verify users can update quantity of product in cart', () => {
         await shopPage.switchToListView();
         product = await shopPage.selectRandomItemInList();
   });
-    test.only("Verify users can update quantity of product in cart", async ({ departmentPage, cartPage }) => {
+    test("Verify users can update quantity of product in cart", async ({ departmentPage, cartPage }) => {
         await departmentPage.gotoCartPage();
         await cartPage.checkQuantityOfProductInCart(product.name, 1);
         await cartPage.checkSubtotalOfProductInCart(product.name, product.price);

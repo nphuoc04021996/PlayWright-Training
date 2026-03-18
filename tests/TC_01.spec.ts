@@ -17,7 +17,7 @@ test.describe('Verify users can buy an item successfully', () => {
     await cartPage.gotoHomeTab();
   });
 
-  test.only("Verify users can buy an item successfully", async ({ myAccountPage, departmentPage, checkoutPage, orderStatusPage }) => {
+  test("Verify users can buy an item successfully", async ({ myAccountPage, departmentPage, checkoutPage, orderStatusPage }) => {
     await myAccountPage.selectDepartment(DepartmentOptions.ELECTRONIC_COMPONENTS_AND_SUPPLIES);
     await departmentPage.checkItemListAsGrid();
     await departmentPage.switchToListView();

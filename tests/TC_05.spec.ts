@@ -31,7 +31,7 @@ test.describe.serial("Verify orders appear in order history", () =>{
         order2 = await orderStatusPage.getOrderInfo();
   });
 
-    test.only(`Verify orders appear in order history`, async ({ myAccountPage, orderStatusPage, orderHistoryPage }) => {
+    test(`Verify orders appear in order history`, async ({ myAccountPage, orderStatusPage, orderHistoryPage }) => {
         await orderStatusPage.gotoMypage();
         await myAccountPage.gotoOrderHistory();
         const orderList = await orderHistoryPage.getListOrderHistory();
