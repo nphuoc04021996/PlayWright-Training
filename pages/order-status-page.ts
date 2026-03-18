@@ -99,6 +99,7 @@ export class OrderStatusPage extends BasePage  {
     }
 
     async getOrderInfo(): Promise<Orderinfo> {
+        await this.page.waitForLoadState('networkidle');
         const orderNumber = await this.orderNumber.innerText();
         const orderDate = await this.orderDate.innerText();
         const email = (await this.orderEmail.first().textContent())?.trim() ?? '';
