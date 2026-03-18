@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  playwright-tests:
+  tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
@@ -14,8 +14,8 @@ jobs:
         shardIndex: [1, 2, 3, 4]
         shardTotal: [4]
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-node@v5
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: lts/*
     - name: Install dependencies
