@@ -25,6 +25,9 @@ export default defineConfig({
     reporter: process.env.CI ? 'blob' : 'html',
     /* Global timeout for each test */
     timeout: 3 * 60000,
+    expect: {
+        timeout: 20000
+    },
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
       actionTimeout: 60000,

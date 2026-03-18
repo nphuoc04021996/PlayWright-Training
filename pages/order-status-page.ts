@@ -29,7 +29,7 @@ export class OrderStatusPage extends BasePage  {
     }
 
     async checkOrderPlacedSuccessfully(): Promise<void> {
-        await expect(this.orderStatusMessage).toBeVisible({ timeout: 20000 });
+        await expect(this.orderStatusMessage).toBeVisible();
     }
 
     async getBillingDetailsText(): Promise<string> {

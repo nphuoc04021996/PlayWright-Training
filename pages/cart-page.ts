@@ -75,7 +75,7 @@ export class CartPage extends BasePage {
     }
 
     async checkCartEmptyMessageDisplayed(): Promise<void> {
-        await expect(this.cartEmptyMessage).toBeVisible({ timeout: 20000 });
+        await expect(this.cartEmptyMessage).toBeVisible();
     }
 
     private getProductRow(name: string) {

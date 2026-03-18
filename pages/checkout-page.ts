@@ -227,7 +227,7 @@ export class CheckoutPage extends BasePage {
             default:
                 throw new Error(`Unhandled field name: ${fieldName}`);
         }
-        await expect(errorLocator).toBeVisible({ timeout: 20000 });
+        await expect(errorLocator).toBeVisible();
     }
 }
 
