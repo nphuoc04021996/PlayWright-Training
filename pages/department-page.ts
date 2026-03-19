@@ -27,10 +27,12 @@ export class DepartmentPage extends BasePage{
     }
 
     async switchToListView(){
+        await this.listViewButton.scrollIntoViewIfNeeded();
         await this.listViewButton.click();
     }
 
     async switchToGridView(){
+        await this.gridViewButton.scrollIntoViewIfNeeded();
         await this.gridViewButton.click();
     }   
 }

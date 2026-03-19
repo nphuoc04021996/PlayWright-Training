@@ -88,7 +88,9 @@ export class CartPage extends BasePage {
 
     async getQuantityOfProductInCart(name: string): Promise<string> {
         const row = this.getProductRow(name);
-        return await row.locator('input.qty').inputValue();
+        const qtyInput = row.locator('input.qty');
+        await qtyInput.waitFor({ state: 'visible', timeout: 10000 });
+        return await qtyInput.inputValue();
     }
 
     async getSubtotalOfProductInCart(name: string): Promise<string> {
