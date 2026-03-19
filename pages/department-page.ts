@@ -28,11 +28,21 @@ export class DepartmentPage extends BasePage{
 
     async switchToListView(){
         await this.listViewButton.scrollIntoViewIfNeeded();
-        await this.listViewButton.click();
+        await Promise.all([
+        this.page.waitForResponse(res =>
+            res.url().includes('et_ajax=true') && res.status() === 200
+        ),
+        await this.listViewButton.click()
+           ]);
     }
 
     async switchToGridView(){
         await this.gridViewButton.scrollIntoViewIfNeeded();
-        await this.gridViewButton.click();
+        await Promise.all([
+        this.page.waitForResponse(res =>
+            res.url().includes('et_ajax=true') && res.status() === 200
+        ),
+        this.gridViewButton.click()
+    ]);
     }   
 }
