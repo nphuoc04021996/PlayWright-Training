@@ -16,7 +16,7 @@ test.describe("Verify users can buy multiple item successfully", ()=>{
 
     test("Verify users can buy multiple item successfully", async ({ homePage, shopPage, checkoutPage, orderStatusPage }) => {
         await homePage.gotoShopPage();
-        const products: Product[] = await shopPage.selectListItemInList(2);
+        const products: Product[] = await shopPage.selectListItemInList(5);
         await shopPage.gotoTheCart();
         await shopPage.checkProductInCartMiniContent(products);
         await shopPage.proceedToCheckoutFromCartMiniContent();
