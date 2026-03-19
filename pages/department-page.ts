@@ -19,11 +19,13 @@ export class DepartmentPage extends BasePage{
     }
 
     async checkItemListAsGrid(){
-        await expect(this.productListAsGrid).toBeVisible(); 
+        await this.page.waitForLoadState('networkidle');
+        await expect(this.productListAsGrid).toBeVisible({timeout: 60000}); 
     }
 
     async checkItemListAsList(){
-        await expect(this.productListAsViewList).toBeVisible(); 
+        await this.page.waitForLoadState('networkidle');
+        await expect(this.productListAsViewList).toBeVisible({timeout: 60000}); 
     }
 
     async switchToListView(){
