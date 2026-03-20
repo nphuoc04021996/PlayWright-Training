@@ -1,6 +1,49 @@
 import { Locator, Page } from '@playwright/test';
 import type { Product } from '../model/product';
 
+// ========== Selector Constants ==========
+const SELECTORS = {
+    HEADER: {
+        LOGIN_SIGNUP: { role: 'link', name: 'Log in / Sign up' },
+        CART: { filter: { hasText: '$' } },
+        WISHLIST: { role: 'link', name: 'Wishlist' },
+        MY_ACCOUNT: 'a[href*="my-account"]',
+    },
+    NAVIGATION: {
+        HOME: { role: 'link', name: 'Home' },
+        SHOP: '#menu-main-menu-1',
+        ALL_DEPARTMENTS: 'All departments',
+        DEPARTMENTS_LIST: 'ul#menu-all-departments-1',
+    },
+    SEARCH: {
+        INPUT: { role: 'textbox', name: 'Search input' },
+        BUTTON: 'search',
+    },
+    CART_MINI: {
+        CONTAINER: '.et_element.et_b_header-cart > .et-mini-content',
+        PRODUCTS: 'listitem',
+        CHECKOUT_LINK: { role: 'link', name: 'Checkout' },
+    },
+    PRODUCTS: {
+        CARD: 'div.content-product',
+        TITLE: '.product-title a',
+        PRICE: '.price .amount',
+        CATEGORY: '.products-page-cats a',
+        RATING: '.star-rating',
+        DESCRIPTION: '.product-excerpt',
+    },
+} as const;
+
+// ========== Type Definitions ==========
+interface ProductLocators {
+    name: Locator;
+    price: Locator;
+    category: Locator;
+    rating: Locator;
+    description: Locator;
+    addToCartLink: Locator;
+}
+
 export abstract class BasePage {
     private randomIndexes: number[] = [];
     readonly page: Page;
@@ -29,9 +72,12 @@ export abstract class BasePage {
         this.shopTab = page.locator('#menu-main-menu-1').getByRole('link', { name: 'Shop' });
         this.alldepartmentsSelect = page.getByText('All departments');
         this.departmentOptionList = page.locator('ul#menu-all-departments-1').getByRole('link');
-        this.productListInCartMiniContent = page.locator('.et_element.et_b_header-cart > .et-mini-content').first().getByRole('listitem');
+        this.productListInCartMiniContent = page
+            .locator('.et_element.et_b_header-cart > .et-mini-content')
+            .first()
+            .getByRole('listitem');
         this.checkoutButtonInCartMiniContent = page.getByRole('link', { name: 'Checkout' });
-        this.productCards = page.locator("div.content-product");
+        this.productCards = page.locator('div.content-product');
         this.myAccountLink = page.locator('a[href*="my-account"]').first();
     }
 
@@ -96,20 +142,25 @@ export abstract class BasePage {
 
     async randomNumberInList(): Promise<number> {
         const count = await this.productCards.count();
-        if (this.randomIndexes.length === 0) {
-            this.randomIndexes = Array.from({ length: count }, (_, i) => i);
-            
-            for (let i = this.randomIndexes.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [this.randomIndexes[i], this.randomIndexes[j]] = [this.randomIndexes[j], this.randomIndexes[i]];
-            }
-        }
-
+        this.initializeShuffledIndexes(count);
         const index = this.randomIndexes.pop();
-        
-        if (index === undefined) return 0; 
-        
-        return index;
+        return index ?? 0;
+    }
+
+    private initializeShuffledIndexes(count: number): void {
+        if (this.randomIndexes.length === 0) {
+            this.randomIndexes = this.createShuffledArray(count);
+        }
+    }
+
+    private createShuffledArray(length: number): number[] {
+        const array = Array.from({ length }, (_, i) => i);
+        // Fisher-Yates shuffle algorithm
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
 
@@ -117,60 +168,75 @@ export abstract class BasePage {
         return this.productCards.nth(index);
     }
 
-    async getProductLocator(card: Locator) {
+    private getProductLocator(card: Locator): ProductLocators {
         return {
-            name: card.locator('.product-title a'),
-            price: card.locator('.price .amount').last(),
-            category: card.locator('.products-page-cats a'),
-            rating: card.locator('.star-rating'),
-            description: card.locator('.product-excerpt'),
+            name: card.locator(SELECTORS.PRODUCTS.TITLE),
+            price: card.locator(SELECTORS.PRODUCTS.PRICE).last(),
+            category: card.locator(SELECTORS.PRODUCTS.CATEGORY),
+            rating: card.locator(SELECTORS.PRODUCTS.RATING),
+            description: card.locator(SELECTORS.PRODUCTS.DESCRIPTION),
             addToCartLink: card.getByRole('link', { name: /Add .* to your cart/i }).nth(1)
         };
     }
 
     async getProductDataByIndex(index: number): Promise<Product> {
         const productCard = await this.getProductCartByIndex(index);
-        const locators = await this.getProductLocator(productCard);
+        const locators = this.getProductLocator(productCard);
+        
         const name = await locators.name.innerText();
         const price = await locators.price.innerText();
         const category = (await locators.category.allTextContents())[0]?.trim() ?? "";
-
-        let rate = '';
-
-        if (await locators.rating.count() > 0) {
-            const ratingLabel = await locators.rating.first().getAttribute('aria-label');
-            rate = ratingLabel?.match(/Rated ([\d.]+)/)?.[1] ?? '0';
-        }
-
+        const rate = await this.extractProductRating(locators.rating);
         const description = (await locators.description.textContent())?.trim() ?? '';
 
         return { name, price, category, rate, description };
     }
 
-    async selectRandomItemInList(): Promise<Product>{
+    private async extractProductRating(ratingLocator: Locator): Promise<string> {
+        if (await ratingLocator.count() === 0) {
+            return '0';
+        }
+        const ratingLabel = await ratingLocator.first().getAttribute('aria-label');
+        return ratingLabel?.match(/Rated ([\d.]+)/)?.[1] ?? '0';
+    }
+
+    async selectRandomItemInList(): Promise<Product> {
         const index = await this.randomNumberInList();
+        return await this.selectProductByIndex(index);
+    }
+
+    private async selectProductByIndex(index: number): Promise<Product> {
         const productCard = await this.getProductCartByIndex(index);
-        const productLocators = await this.getProductLocator(productCard);
+        const locators = this.getProductLocator(productCard);
         const productData = await this.getProductDataByIndex(index);
+        
+        await this.addProductToCart(locators.addToCartLink);
+        
+        return productData;
+    }
+
+    private async addProductToCart(addToCartLink: Locator): Promise<void> {
         await Promise.all([
             this.page.waitForResponse(res =>
                 res.url().includes('?wc-ajax=add_to_cart')
             ),
-            productLocators.addToCartLink.click()
+            addToCartLink.click()
         ]);
-        return productData;
     }
 
     async selectListItemInList(numberOfItem: number): Promise<Product[]> {
-        const products: Product[] = []; 
-        
-        this.randomIndexes = []; 
+        this.resetRandomIndexes();
+        const products: Product[] = [];
 
         for (let i = 0; i < numberOfItem; i++) {
             const product = await this.selectRandomItemInList();
             products.push(product);
         }
-        
-        return products; 
+
+        return products;
+    }
+
+    private resetRandomIndexes(): void {
+        this.randomIndexes = [];
     }
 }
