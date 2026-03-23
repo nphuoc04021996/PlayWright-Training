@@ -29,7 +29,18 @@ type MyFixture = {
 export const test = base.extend<MyFixture>({
     account: async ({}, use, workerInfo) => {
         const accounts = Object.values(userData);
-        const account = accounts[workerInfo.workerIndex % accounts.length];
+        const shardIndex = Number(process.env.SHARD_INDEX || 1);
+        const shardTotal = Number(process.env.SHARD_TOTAL || 1);
+
+        const accountsPerShard = Math.ceil(accounts.length / shardTotal);
+
+        const start = (shardIndex - 1) * accountsPerShard;
+        const end = start + accountsPerShard;
+
+        const shardAccounts = accounts.slice(start, end);
+
+        const account =  shardAccounts[workerInfo.workerIndex % shardAccounts.length];
+
         await use(account);
     },
 
