@@ -13,7 +13,7 @@ export class ItemDetailPage extends BasePage {
     }  
 
     async selectStarRating(star: number) {
-        await this.page.locator('p.stars .star-1').click();
+        await this.page.locator(`p.stars .star-${star}`).click();
     }
 
     async fillReviewTextArea(review: string) {
