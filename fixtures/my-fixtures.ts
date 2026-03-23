@@ -27,28 +27,24 @@ type MyFixture = {
 };
 
 export const test = base.extend<MyFixture>({
-    account: async ({}, use, workerInfo) => {
+    account: async ({}, use, testInfo) => {
         const accounts = Object.values(userData);
 
         const shardIndex = Number(process.env.SHARD_INDEX || 1);
-        const workersPerShard = Number(process.env.WORKERS || 1);
+        const shardTotal = Number(process.env.SHARD_TOTAL || 1);
+
+        const testsPerShard = Math.ceil(accounts.length / shardTotal);
 
         const globalIndex =
-            (shardIndex - 1) * workersPerShard + workerInfo.workerIndex;
+            (shardIndex - 1) * testsPerShard + testInfo.parallelIndex;
 
         const account = accounts[globalIndex];
 
         if (!account) {
-            throw new Error(
-                `Not enough accounts!
-                Total accounts: ${accounts.length}
-                Required: ${(shardIndex - 1) * workersPerShard + workerInfo.workerIndex + 1}`
-                        );
-                    }
+            throw new Error(`Not enough accounts!`);
+        }
 
-        console.log(
-            `Using account [${globalIndex}]: ${account.username}`
-        );
+        console.log(`Using account [${globalIndex}]: ${account.username}`);
 
         await use(account);
     },
