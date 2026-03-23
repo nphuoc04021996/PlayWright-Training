@@ -37,7 +37,7 @@ jobs:
         env:
           SHARD_INDEX: ${{ matrix.shardIndex }}
           SHARD_TOTAL: ${{ matrix.shardTotal }}
-          WORKERS: 2
+          WORKERS: 1
 
       - name: Upload blob report
         if: ${{ !cancelled() }}
