@@ -74,23 +74,41 @@ export class OrderStatusPage extends BasePage  {
         expect(actualBillingDetails).toContain(expectedBillingDetails.email);
     }
 
-    async checkProductInOrderDetail(products: Product[]) {
-        for (const product of products) {
-            await this.checkProductNameInOrderDetail(product.name);
-            await this.checkProductPriceOrderDetail(product.price);
-        }
+    async checkProductInOrderDetail(expectedProducts: Product[]) {
+        const actualProducts = await this.getListProductOnOrderDetail();
+
+        expect(
+            actualProducts.length,
+            `Total product mismatch.
+            Expected: ${expectedProducts.length}
+            Actual: ${actualProducts.length}`
+                ).toBe(expectedProducts.length);
+
+        for (const expected of expectedProducts) {
+            const actualCount = actualProducts.filter(p =>
+                this.isSameProduct(p, expected)
+            ).length;
+
+            const expectedCount = expectedProducts.filter(p =>
+                this.isSameProduct(p, expected)
+            ).length;
+
+            expect(
+                actualCount,
+                `Product mismatch:
+                Name: ${expected.name}
+                Price: ${expected.price}
+                Expected count: ${expectedCount}
+                Actual count: ${actualCount}`
+                        ).toBe(expectedCount);
+                    }
     }
 
-    async checkProductNameInOrderDetail(productName: string): Promise<void> {
-        const products = await this.getListProductOnOrderDetail();
-        const productNames = products.map(p => p.name);
-        expect(productNames.some(p => StringHelper.compareProductName(p, productName))).toBe(true);
-    }
-
-    async checkProductPriceOrderDetail(productPrice: string): Promise<void> {
-        const products = await this.getListProductOnOrderDetail();
-        const productPrices = products.map(p => p.price);
-        expect(productPrices.some(p => p.includes(productPrice))).toBe(true);
+    private isSameProduct(a: Product, b: Product): boolean {
+        return (
+            StringHelper.compareProductName(a.name, b.name) &&
+            a.price.includes(b.price)
+        );
     }
 
     async checkProductPaymentMethodInOrderDetail(paymentMethod: string): Promise<void> {
